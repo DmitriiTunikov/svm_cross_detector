@@ -1,0 +1,192 @@
+{
+    "description": "",
+    "tags": [],
+    "size": {
+        "height": 360,
+        "width": 481
+    },
+    "objects": [
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:12.954Z",
+            "updatedAt": "2020-04-24T17:47:50.576Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_big",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:16.404Z",
+                    "updatedAt": "2020-04-24T17:47:16.404Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        246,
+                        168
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:18.787Z",
+            "updatedAt": "2020-04-24T17:47:50.576Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_big",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:22.021Z",
+                    "updatedAt": "2020-04-24T17:47:22.021Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        281,
+                        171
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:25.650Z",
+            "updatedAt": "2020-04-24T17:47:50.576Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "2_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:29.990Z",
+                    "updatedAt": "2020-04-24T17:47:29.990Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        254,
+                        131
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:32.735Z",
+            "updatedAt": "2020-04-24T17:47:50.576Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:35.699Z",
+                    "updatedAt": "2020-04-24T17:47:35.699Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        255,
+                        115
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:38.334Z",
+            "updatedAt": "2020-04-24T17:47:50.576Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:41.426Z",
+                    "updatedAt": "2020-04-24T17:47:41.426Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        273,
+                        118
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:44.359Z",
+            "updatedAt": "2020-04-24T17:47:48.619Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "2_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:47.424Z",
+                    "updatedAt": "2020-04-24T17:47:47.424Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        271,
+                        104
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T17:47:50.413Z",
+            "updatedAt": "2020-04-24T17:48:20.394Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T17:47:53.663Z",
+                    "updatedAt": "2020-04-24T17:47:53.663Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        259,
+                        99
+                    ]
+                ],
+                "interior": []
+            }
+        }
+    ]
+}

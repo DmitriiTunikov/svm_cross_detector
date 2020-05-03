@@ -1,0 +1,210 @@
+{
+    "description": "",
+    "tags": [],
+    "size": {
+        "height": 600,
+        "width": 800
+    },
+    "objects": [
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        461,
+                        289
+                    ],
+                    [
+                        498,
+                        350
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        479,
+                        319
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        447,
+                        203
+                    ],
+                    [
+                        475,
+                        239
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        463,
+                        220
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        412,
+                        206
+                    ],
+                    [
+                        435,
+                        243
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        423,
+                        221
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        414,
+                        175
+                    ],
+                    [
+                        442,
+                        198
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        427,
+                        188
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        557,
+                        198
+                    ],
+                    [
+                        589,
+                        230
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        573,
+                        214
+                    ]
+                ],
+                "interior": []
+            }
+        }
+    ]
+}

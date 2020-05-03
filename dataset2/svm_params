@@ -1,0 +1,12 @@
+1_2_small:
+Best Score:  0.8541131062951497
+Best Params:  {'C': 10, 'class_weight': {1: 0.7, 0: 0.3}}
+1_2_big:
+Best Score:  0.9566771885521884
+Best Params:  {'C': 10, 'class_weight': {1: 0.5, 0: 0.5}}
+2_2_small:
+Best Score:  0.9573367808661926
+Best Params:  {'C': 1, 'class_weight': {1: 0.6, 0: 0.4}}
+2_2_big:
+Best Score:  0.9916666666666666
+Best Params:  {'C': 10, 'class_weight': {1: 0.5, 0: 0.5}}

@@ -1,0 +1,114 @@
+{
+    "description": "",
+    "tags": [],
+    "size": {
+        "height": 600,
+        "width": 800
+    },
+    "objects": [
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T13:44:24.462Z",
+            "updatedAt": "2020-04-24T13:44:50.340Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "2_2_big",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T13:44:28.549Z",
+                    "updatedAt": "2020-04-24T13:44:28.549Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        510,
+                        497
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T13:44:32.727Z",
+            "updatedAt": "2020-04-24T13:44:50.340Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T13:44:37.135Z",
+                    "updatedAt": "2020-04-24T13:44:37.135Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        422,
+                        239
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T13:44:42.313Z",
+            "updatedAt": "2020-04-24T13:44:47.856Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "2_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T13:44:46.199Z",
+                    "updatedAt": "2020-04-24T13:44:46.199Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        433,
+                        202
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T13:44:50.199Z",
+            "updatedAt": "2020-04-24T14:23:47.375Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T13:44:53.808Z",
+                    "updatedAt": "2020-04-24T13:44:53.808Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        472,
+                        250
+                    ]
+                ],
+                "interior": []
+            }
+        }
+    ]
+}

@@ -1,0 +1,154 @@
+{
+    "description": "",
+    "tags": [],
+    "size": {
+        "height": 600,
+        "width": 800
+    },
+    "objects": [
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        328,
+                        257
+                    ],
+                    [
+                        368,
+                        317
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_big",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T12:33:28.402Z",
+                    "updatedAt": "2020-04-24T12:33:28.402Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        346,
+                        293
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        271,
+                        271
+                    ],
+                    [
+                        297,
+                        339
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "1_2_big",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T12:33:21.541Z",
+                    "updatedAt": "2020-04-24T12:33:21.541Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        282,
+                        308
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "rectangle",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T10:22:32.178Z",
+            "tags": [],
+            "classTitle": "rectangle",
+            "points": {
+                "exterior": [
+                    [
+                        323,
+                        210
+                    ],
+                    [
+                        349,
+                        247
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "geometryType": "point",
+            "labelerLogin": "apasniyparin3000@gmail.com",
+            "createdAt": "2020-04-24T10:22:32.178Z",
+            "updatedAt": "2020-04-24T12:33:17.849Z",
+            "tags": [
+                {
+                    "name": "cross_type",
+                    "value": "2_2_small",
+                    "labelerLogin": "apasniyparin3000@gmail.com",
+                    "createdAt": "2020-04-24T12:33:16.596Z",
+                    "updatedAt": "2020-04-24T12:33:16.596Z"
+                }
+            ],
+            "classTitle": "point",
+            "points": {
+                "exterior": [
+                    [
+                        337,
+                        225
+                    ]
+                ],
+                "interior": []
+            }
+        }
+    ]
+}
