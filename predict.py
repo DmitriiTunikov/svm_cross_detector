@@ -17,47 +17,6 @@ class Model:
         self.scaler = scaler
 
 
-def test_classifier(model_file_name: str):
-    if 'big' in model_file_name:
-        width = big_w
-        heigh = big_h
-        pix_per_cell = pixels_per_cell_big
-    else:
-        width = small_w
-        heigh = small_h
-        pix_per_cell = pixels_per_cell_small
-
-    with open(model_file_name, 'rb') as fid:
-        clf = pickle.load(fid)
-
-    img = cv2.imread('dataset1/ds/img/img0002.jpg')
-    img = img[int(img.shape[0] / 5): img.shape[0], 0: img.shape[1]]
-
-    half_width = int(width / 2)
-    half_heigh = int(heigh / 2)
-    # x_center = 324
-    # y_center = 59
-    # crop_img = img[y_center - half_heigh: y_center + half_heigh, x_center - half_width: x_center + half_width]
-    # feature = hog(crop_img, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)
-    # predict_res = clf.predict([feature])
-    # ds = clf.decision_function([feature])
-    # print(ds)
-    #
-    for x in range(0, img.shape[1] - width, 2):
-        for y in range(0, int(small_threshhold * img.shape[0]), 2):
-            crop_img = img[y: y + heigh, x: x + width]
-            feature = hog(crop_img, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)
-            predict_res = clf.predict([feature])
-            if predict_res[0] == 1:
-                ds = clf.decision_function([feature])
-                print(f'({x},{y}) : {ds[0]}')
-                cv2.rectangle(img, (x, y), (x + width, y + heigh), (0, 255, 0))
-
-    cv2.imshow('original', img)
-
-    cv2.waitKey()
-
-
 def predict_in_heigh(img, models: List[Model], min_h: int, max_h: int, win_w: int, win_h: int, win_step: int, pix_per_cell,
                      is_pca: bool, is_lda: bool) -> List:
     img_w = img.shape[1]
@@ -161,7 +120,7 @@ def main():
             small_models.append(cur_model)
 
     # run_predictions(path_to_image_dir=sys.argv[5])
-    predict('dataset1/ds/img/img0002.jpg', big_models, small_models, is_pca, is_lda)
+    predict('images/img0002.jpg', big_models, small_models, is_pca, is_lda)
 
 
 if __name__ == '__main__':
