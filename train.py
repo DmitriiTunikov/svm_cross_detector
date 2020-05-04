@@ -22,17 +22,15 @@ def main():
     path_to_images_dir = sys.argv[1]
     path_to_res_dir = sys.argv[2]
 
-    ds_count = {'1_2_small': 0, '1_2_big': 0, '2_2_small': 0, '2_2_big': 0}
+    ds_count = {'1_2_small': 0, '1_2_big': 0, '2_2_small': 0, '2_2_big': 0, 'big': 0, 'small': 0}
     ds_count_neg = {'small': 0, 'big': 0}
     result_files = {}
     result_array_x = {}
     result_array_y = {}
-    clfrs = {}
 
     for key, val in ds_count.items():
         result_array_x[key] = []
         result_array_y[key] = []
-        clfrs[key] = svm.SVC()
 
     image_names = os.listdir(path_to_images_dir)
     start = time.time()
@@ -95,30 +93,44 @@ def main():
                         ds_count[cross_type] += 1
 
                     if is_positive_point and has_tag:
-
+                        class_num = 1
                         prefix = '2_2_'
                         if '1_2_' in cross_type:
                             prefix = '1_2_'
+                            class_num = 2
 
-                        postfix = 'big'
                         if is_small_size:
                             postfix = 'small'
+                            ds_count['small'] += 1
+                        else:
+                            postfix = 'big'
+                            ds_count['big'] += 1
+
                         cross_type = prefix + postfix
+
+                        # add to full cross_type data
                         result_array_x[cross_type].append(res)
                         result_array_y[cross_type].append(1)
+
+                        # add to small/big cross_type data
+                        result_array_x[postfix].append(res)
+                        result_array_y[postfix].append(1)
                     elif is_negative_point:
                         if is_small_size:
+                            size = 'small'
                             ds_count_neg['small'] += 1
                             cur_cross_types = ['1_2_small', '2_2_small']
                         else:
-                            # if ds_count_neg['small'] > 86:
-                            #     continue
+                            size = 'big'
                             ds_count_neg['big'] += 1
                             cur_cross_types = ['1_2_big', '2_2_big']
 
                         for cross_type in cur_cross_types:
                             result_array_x[cross_type].append(res)
                             result_array_y[cross_type].append(0)
+
+                            result_array_x[size].append(res)
+                            result_array_y[size].append(0)
 
     print(f"time: {time.time() - start}")
     sum = 0
@@ -133,16 +145,8 @@ def main():
         print(f'negative_{key}: {val}')
     print('nagative sum: ' + str(sum))
 
-    for key, clf in clfrs.items():
-        weights = []
-
-        for i, res_elem in enumerate(result_array_x[key]):
-            if result_array_y[key][i] == 1:
-                weights.append(1)
-            else:
-                weights.append(1)
-
-        train_and_test(result_array_x[key], result_array_y[key], weights, key)
+    for key, clf in result_array_x.items():
+        train_and_test(result_array_x[key], result_array_y[key], key, False)
 
 
 if __name__ == '__main__':

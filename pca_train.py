@@ -77,10 +77,13 @@ def save_results(svm_name, clf, scaler, pca=None):
 
 def find_best_params(X_train, y_train):
     C = [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
+    # Gamma = [1, 0.1, 0.01, 0.001, 0.00001, 10]
     class_weight = [{1: 0.5, 0: 0.5}, {1: 0.4, 0: 0.6}, {1: 0.6, 0: 0.4}, {1: 0.7, 0: 0.3}]
+    # class_weight = [{2: 0.25, 1: 0.25, 0: 0.5}, {2: 0.2, 1: 0.2, 0: 0.6}, {2: 0.3, 1: 0.3, 0: 0.4}, {2: 0.35, 1: 0.35, 0: 0.3}]
 
     param_grid = dict(C=C,
                       class_weight=class_weight)
+                      # gamma=Gamma)
 
     grid = GridSearchCV(estimator=SVC(),
                         param_grid=param_grid,
@@ -96,7 +99,11 @@ def find_best_params(X_train, y_train):
     return grid
 
 
-def train_and_test(X, Y, weights, svm_name):
+def train_and_test(X, Y, svm_name, multi_class: bool):
+    if multi_class:
+        from sklearn import preprocessing
+        Y = preprocessing.label_binarize(Y, classes=[0, 1, 2])
+
     print(svm_name + ":")
 
     # scale data
@@ -113,7 +120,7 @@ def train_and_test(X, Y, weights, svm_name):
     save_results(svm_name, clf, scaler, None)
     return
 
-    is_pca = False
+    is_pca = True
 
     # train svm
     classify, pca = train_svm(X_train, Y_train, svm_name, is_pca)
@@ -126,7 +133,7 @@ def train_and_test(X, Y, weights, svm_name):
     predicted = classify.predict(feature_reduced)
 
     # test and output results
-    print(f"score: {classify.score(X_test, Y_test)}")
+    print(f"score: {classify.score(feature_reduced, Y_test)}")
     print(f"precision_score(not to label as positive a sample that is negative): {precision_score(Y_test, predicted)}")
 
     save_results(svm_name, classify, scaler, pca)
@@ -139,7 +146,7 @@ def train_svm(X_train, Y_train, svm_name, is_pca: bool):
     components_count, pca1 = None, None
     X_train_scaled_reduced = X_train
     if is_pca:
-        components_count = 16
+        components_count = 2
         pca1 = PCA(n_components=components_count)
         X_train_scaled_reduced = pca1.fit_transform(X_train)
 
