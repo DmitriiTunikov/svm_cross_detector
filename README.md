@@ -52,13 +52,13 @@ nagative sum: 617
 Результат тестирования моделей:  
 Y_small:
 Best Score:  0.8577176470588237
-Best Params:  {'C': 10, 'class_weight': {1: 0.5, 0: 0.5}, 'gamma': 0.01}
+Best Params:  {'C': 10, 'class_weight': {1: 0.5, 0: 0.5}, 'gamma': 0.01}  
 Y_big:
 Best Score:  0.9472285353535351
-Best Params:  {'C': 10, 'class_weight': {1: 0.5, 0: 0.5}, 'gamma': 0.001}
+Best Params:  {'C': 10, 'class_weight': {1: 0.5, 0: 0.5}, 'gamma': 0.001}  
 X_small:
 Best Score:  0.9605472958414134
-Best Params:  {'C': 0.0001, 'class_weight': {1: 0.6, 0: 0.4}, 'gamma': 0.01}
+Best Params:  {'C': 0.0001, 'class_weight': {1: 0.6, 0: 0.4}, 'gamma': 0.01}  
 X_big:
 Best Score:  0.9979166666666668
 Best Params:  {'C': 1000, 'class_weight': {1: 0.5, 0: 0.5}, 'gamma': 1e-05}
