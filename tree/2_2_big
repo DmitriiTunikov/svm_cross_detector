@@ -1,0 +1,37 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label=<X<SUB>421</SUB> &le; 0.264<br/>gini = 0.266<br/>samples = 190<br/>value = [160, 30]<br/>class = not_intersection>, fillcolor="#ea995e"] ;
+1 [label=<X<SUB>1135</SUB> &le; 0.299<br/>gini = 0.118<br/>samples = 159<br/>value = [149, 10]<br/>class = not_intersection>, fillcolor="#e78946"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label=<X<SUB>1078</SUB> &le; 0.338<br/>gini = 0.028<br/>samples = 142<br/>value = [140, 2]<br/>class = not_intersection>, fillcolor="#e5833c"] ;
+1 -> 2 ;
+3 [label=<X<SUB>258</SUB> &le; 0.264<br/>gini = 0.014<br/>samples = 141<br/>value = [140, 1]<br/>class = not_intersection>, fillcolor="#e5823a"] ;
+2 -> 3 ;
+4 [label=<gini = 0.0<br/>samples = 139<br/>value = [139, 0]<br/>class = not_intersection>, fillcolor="#e58139"] ;
+3 -> 4 ;
+5 [label=<X<SUB>935</SUB> &le; 0.14<br/>gini = 0.5<br/>samples = 2<br/>value = [1, 1]<br/>class = not_intersection>, fillcolor="#ffffff"] ;
+3 -> 5 ;
+6 [label=<gini = 0.0<br/>samples = 1<br/>value = [1, 0]<br/>class = not_intersection>, fillcolor="#e58139"] ;
+5 -> 6 ;
+7 [label=<gini = 0.0<br/>samples = 1<br/>value = [0, 1]<br/>class = intersection>, fillcolor="#399de5"] ;
+5 -> 7 ;
+8 [label=<gini = 0.0<br/>samples = 1<br/>value = [0, 1]<br/>class = intersection>, fillcolor="#399de5"] ;
+2 -> 8 ;
+9 [label=<X<SUB>80</SUB> &le; 0.123<br/>gini = 0.498<br/>samples = 17<br/>value = [9, 8]<br/>class = not_intersection>, fillcolor="#fcf1e9"] ;
+1 -> 9 ;
+10 [label=<gini = 0.0<br/>samples = 9<br/>value = [9, 0]<br/>class = not_intersection>, fillcolor="#e58139"] ;
+9 -> 10 ;
+11 [label=<gini = 0.0<br/>samples = 8<br/>value = [0, 8]<br/>class = intersection>, fillcolor="#399de5"] ;
+9 -> 11 ;
+12 [label=<X<SUB>649</SUB> &le; 0.114<br/>gini = 0.458<br/>samples = 31<br/>value = [11, 20]<br/>class = intersection>, fillcolor="#a6d3f3"] ;
+0 -> 12 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+13 [label=<X<SUB>1339</SUB> &le; 0.334<br/>gini = 0.26<br/>samples = 13<br/>value = [11, 2]<br/>class = not_intersection>, fillcolor="#ea985d"] ;
+12 -> 13 ;
+14 [label=<gini = 0.0<br/>samples = 11<br/>value = [11, 0]<br/>class = not_intersection>, fillcolor="#e58139"] ;
+13 -> 14 ;
+15 [label=<gini = 0.0<br/>samples = 2<br/>value = [0, 2]<br/>class = intersection>, fillcolor="#399de5"] ;
+13 -> 15 ;
+16 [label=<gini = 0.0<br/>samples = 18<br/>value = [0, 18]<br/>class = intersection>, fillcolor="#399de5"] ;
+12 -> 16 ;
+}

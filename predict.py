@@ -16,7 +16,7 @@ Options:
 Mention:
     Result image will be saved to `--output-path`.
     Example:
-        Command line: predict.py --models-path=models --image-path=images/img0002.jpg --output-path res.jpg
+        Command line: predict.py --models-path=models --image-path=images/example.jpg --output-path res.jpg
 """
 
 import os
@@ -28,6 +28,9 @@ import cv2
 import pickle
 from skimage.feature import hog
 import docopt
+
+from utils import get_size_by_y
+
 global need_to_plot
 
 class Model:
@@ -38,25 +41,26 @@ class Model:
         self.scaler = scaler
 
 
-def predict_in_point(img, x, y, win_w, win_h, pix_per_cell, models, is_pca=False):
-    half_w, half_h = int(win_w / 2), int(win_h / 2)
+def predict_in_point(img, x, y, win_w, win_h, pix_per_cell, models):
+    real_win_h, real_win_w = get_size_by_y(img.shape[0], min_win_h, max_win_h, y) if need_to_resize else (win_h, win_w)
+    half_w, half_h = int(real_win_w / 2), int(real_win_h / 2)
 
-    if y + win_h > img.shape[0] or x + win_w > img.shape[1] or y - half_h < 0 or x - half_w < 0:
+    if y + half_h > img.shape[0] or x + half_w > img.shape[1] or y - half_h < 0 or x - half_w < 0:
         return False
 
-    window = img[y - half_h: y + half_h, x - half_w: x + half_w]
-    feature = hog(window, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)
+    real_window = img[y - half_h: y + half_h, x - half_w: x + half_w]
+    resize_window = cv2.resize(real_window, (win_w, win_h)) if need_to_resize else real_window
 
+    feature = [hog(resize_window, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)]
     for model_idx, cur_model in enumerate(models):
 
-        scaled_feature = cur_model.scaler.transform([feature])
+        if cur_model.scaler is not None:
+            feature = cur_model.scaler.transform(feature)
 
-        feature_reduced = scaled_feature
-        # is pca reduced
-        if is_pca:
-            feature_reduced = cur_model.pca.transform(scaled_feature)
+        if cur_model.pca is not None:
+            feature = cur_model.pca.transform(feature)
 
-        predict_res = cur_model.model.predict(feature_reduced)
+        predict_res = cur_model.model.predict(feature)
 
         if predict_res[0] == 1:
             color = 0
@@ -70,13 +74,12 @@ def predict_in_point(img, x, y, win_w, win_h, pix_per_cell, models, is_pca=False
     return False
 
 
-def predict_in_heigh(img, models: List[Model], min_h: int, max_h: int, win_w: int, win_h: int, win_step: int, pix_per_cell,
-                     is_pca: bool) -> List:
+def predict_in_heigh(img, models: List[Model], min_h: int, max_h: int, win_w: int, win_h: int, win_step: int, pix_per_cell) -> List:
     x = 0
     while x < img.shape[1] - win_w:
         y = min_h
         while y < max_h - win_h:
-            predict_in_point(img, x, y, win_w, win_h, pix_per_cell, models, is_pca)
+            predict_in_point(img, x, y, win_w, win_h, pix_per_cell, models)
             y += win_step
         x += win_step
 
@@ -91,16 +94,16 @@ def prepare_image(image_path: str):
     return img
 
 
-def predict_window(image_path: str, big_models: List[Model], small_models: List[Model], is_pca: bool) -> List:
+def predict_window(image_path: str, big_models: List[Model], small_models: List[Model]) -> List:
     res = []
     img = prepare_image(image_path)
     img_h = img.shape[0]
 
-    predict_in_heigh(img, small_models, int(small_h / 2), int(small_threshhold * img_h), small_w,
-                     small_h, 2, pixels_per_cell_small, is_pca)
+    predict_in_heigh(img, small_models, 0, int(small_heigh_part * img_h), small_w,
+                     small_h, 2, pixels_per_cell_small)
 
-    predict_in_heigh(img, big_models, int(small_threshhold * img_h - small_h / 2), img_h, big_w,
-                     big_h, 10, pixels_per_cell_big, is_pca)
+    predict_in_heigh(img, big_models, int(small_heigh_part * img_h - small_h), img_h, big_w,
+                     big_h, 10, pixels_per_cell_big)
 
     if need_to_plot:
         cv2.imshow("crop image", img)
@@ -118,41 +121,38 @@ def run_predictions(path_to_image_dir: str, big_models: List, small_models: List
         res = predict_window(image_name, big_models, small_models)
 
 
-def get_models(models_dir_path: str, is_pca: bool) -> (List[Model], List[Model]):
+def load_single_model(file_path):
+    try:
+        model_fid = open(file_path, 'rb')
+        model = pickle.load(model_fid)
+    except Exception as e:
+        return None
+
+    return model
+
+
+def get_models(models_dir_path: str) -> (List[Model], List[Model]):
     file_names = os.listdir(models_dir_path)
 
     small_models: List[Model] = []
     big_models: List[Model] = []
     for model_file_name in file_names:
-        if 'svm_model' not in model_file_name:
+        if 'model' not in model_file_name:
             continue
 
-        if model_file_name == 'svm_model_big.pkl' or model_file_name == 'svm_model_small.pkl':#\
-                # or model_file_name == 'svm_model_1_2_small.pkl' or model_file_name == 'svm_model_1_2_big.pkl':
+        if model_file_name == 'model_big.pkl' and model_file_name == 'model_small.pkl':# \
+                #or model_file_name == 'model_1_2_small.pkl' or model_file_name == 'model_1_2_big.pkl':
             continue
 
-        # if model_file_name != 'svm_model_big.pkl' and model_file_name != 'svm_model_small.pkl':
-        #     continue
+        svm_model = load_single_model(os.path.join(models_dir_path, model_file_name))
+        scaler = load_single_model(os.path.join(models_dir_path, model_file_name.replace('model', 'scaler')))
+        pca = load_single_model(os.path.join(models_dir_path, model_file_name.replace('model', 'pca')))
 
-        pca_file_name = model_file_name.replace('svm_model', 'pca')
-        scaler_file_name = model_file_name.replace('svm_model', 'scaler')
-
-        svm_model_fid = open(os.path.join(models_dir_path, model_file_name), 'rb')
-        scaler_fid = open(os.path.join(models_dir_path, scaler_file_name), 'rb')
-
-        cur_pca = None
-        if is_pca:
-            pca_fid = open(os.path.join(models_dir_path, pca_file_name), 'rb')
-            cur_pca = pickle.load(pca_fid)
-
-        cur_scaler = pickle.load(scaler_fid)
-        cur_svm_model = pickle.load(svm_model_fid)
-
-        cur_model = Model(cur_svm_model, cur_scaler, cur_pca)
+        model = Model(svm_model, scaler, pca)
         if 'big' in model_file_name:
-            big_models.append(cur_model)
+            big_models.append(model)
         else:
-            small_models.append(cur_model)
+            small_models.append(model)
 
     return big_models, small_models
 
@@ -175,7 +175,8 @@ def predict_single(image_path, big_models, small_models, path_to_points):
 
     if need_to_plot:
         cv2.imshow("image", img)
-        if '--output-path' in opts:
+
+        if opts['--output-path'] is not None:
             cv2.imwrite(opts['--output-path'], img)
         cv2.waitKey()
 
@@ -189,16 +190,15 @@ def main():
     global need_to_plot
 
     need_to_plot = True
-    is_pca = False
 
     # load SVM models
-    big_models, small_models = get_models(models_dir, is_pca)
+    big_models, small_models = get_models(models_dir)
 
     if opts['--check-points-path'] is not None:
         predict_single(image_path, big_models, small_models, opts['--check-points-path'])
     else:
         # predict results
-        predict_window(image_path, big_models, small_models, is_pca)
+        predict_window(image_path, big_models, small_models)
 
 
 if __name__ == '__main__':

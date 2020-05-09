@@ -1,4 +1,6 @@
+import os
 import pickle
+import shutil
 
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
@@ -62,50 +64,50 @@ def cross_valid(X, Y):
     return clf
 
 
-def save_results(svm_name, clf, scaler, pca=None):
+def save_results(model_name, clf, scaler=None, pca=None, model_dir='', score='', params=''):
+    if model_dir == '':
+        model_dir = 'models'
 
-    with open(f'models/svm_model_{svm_name}.pkl', 'wb') as fid:
+    with open(f'{model_dir}/model_{model_name}.pkl', 'wb') as fid:
         pickle.dump(clf, fid)
 
     if pca is not None:
-        with open(f'models/pca_{svm_name}.pkl', 'wb') as fid:
-            pickle.dump(pca1, fid)
+        with open(f'{model_dir}/pca_{model_name}.pkl', 'wb') as fid:
+            pickle.dump(pca, fid)
 
-    with open(f'models/scaler_{svm_name}.pkl', 'wb') as fid:
-        pickle.dump(scaler, fid)
+    if scaler is not None:
+        with open(f'{model_dir}/scaler_{model_name}.pkl', 'wb') as fid:
+            pickle.dump(scaler, fid)
+
+    if score != '':
+        with open(f'{model_dir}/score_{model_name}.txt', 'w') as fid:
+            # print(f'{model_name}: {score}')
+            fid.write(str(score))
+
+    if params != '':
+        with open(f'{model_dir}/params_{model_name}.txt', 'w') as fid:
+            # print(f'{model_name}: {params}')
+            fid.write(str(params))
 
 
 def find_best_params(X_train, y_train):
     C = [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
-    # Gamma = [1, 0.1, 0.01, 0.001, 0.00001, 10]
-    class_weight = [{1: 0.5, 0: 0.5}, {1: 0.4, 0: 0.6}, {1: 0.6, 0: 0.4}, {1: 0.7, 0: 0.3}]
-    # class_weight = [{2: 0.25, 1: 0.25, 0: 0.5}, {2: 0.2, 1: 0.2, 0: 0.6}, {2: 0.3, 1: 0.3, 0: 0.4}, {2: 0.35, 1: 0.35, 0: 0.3}]
+    class_weight = [{1: 0.5, 0: 0.5}, {1: 0.4, 0: 0.6}, {1: 0.6, 0: 0.4}, {1: 0.7, 0: 0.3}, {1: 0.3, 0: 0.7}]
 
     param_grid = dict(C=C,
                       class_weight=class_weight)
-                      # gamma=Gamma)
 
-    grid = GridSearchCV(estimator=SVC(),
+    grid = GridSearchCV(estimator=SVC(random_state=0),
                         param_grid=param_grid,
                         scoring='roc_auc',
-                        verbose=1,
+                        # verbose=1,
                         n_jobs=-1)
 
     grid_result = grid.fit(X_train, y_train)
-
-    print('Best Score: ', grid_result.best_score_)
-    print('Best Params: ', grid_result.best_params_)
-
-    return grid
+    return grid, grid_result
 
 
-def train_and_test(X, Y, svm_name, multi_class: bool):
-    if multi_class:
-        from sklearn import preprocessing
-        Y = preprocessing.label_binarize(Y, classes=[0, 1, 2])
-
-    print(svm_name + ":")
-
+def svm_grid(X, Y, svm_name):
     # scale data
     scaler = StandardScaler()
     scaler.fit(X)
@@ -114,10 +116,12 @@ def train_and_test(X, Y, svm_name, multi_class: bool):
     # split data
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.33, random_state=42)
 
-    clf = find_best_params(X_train, Y_train)
+    clf, result = find_best_params(X, Y)
     # clf = cross_valid(X, Y)
 
-    save_results(svm_name, clf, scaler, None)
+    print(f'|{svm_name}|{str(result.best_score_)}|{result.best_params_}|')
+
+    save_results(svm_name, clf, scaler, model_dir='svm', score=result.best_score_, params=result.best_params_)
     return
 
     is_pca = True
@@ -150,7 +154,7 @@ def train_svm(X_train, Y_train, svm_name, is_pca: bool):
         pca1 = PCA(n_components=components_count)
         X_train_scaled_reduced = pca1.fit_transform(X_train)
 
-    svm_model = SVC(kernel='rbf')
+    svm_model = SVC(kernel='linear')
 
     classify = svm_model.fit(X_train_scaled_reduced, Y_train)
 

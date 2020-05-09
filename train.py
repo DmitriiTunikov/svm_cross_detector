@@ -2,6 +2,7 @@ import json
 import os
 import pickle
 import re
+import shutil
 import sys
 from typing import List
 from skimage.feature import hog
@@ -10,8 +11,31 @@ import time
 import logging
 from sklearn import svm
 from sklearn.decomposition import PCA
+from ada_boost import train_ada_boost, decision_tree_grid, desiction_tree_ensemble, lda_classifier
 from params import *
-from pca_train import train_svm, train_and_test
+from pca_train import train_svm, svm_grid
+import numpy as np
+
+from utils import get_size_by_y
+
+def rotate_image(image, angle):
+    image_center = tuple(np.array(image.shape[1::-1]) / 2)
+    rot_mat = cv2.getRotationMatrix2D(image_center, angle, 1.0)
+    result = cv2.warpAffine(image, rot_mat, image.shape[1::-1], flags=cv2.INTER_LINEAR)
+    return result
+
+
+def get_weights(X, y) -> List[float]:
+    arr_x = np.array(X)
+    arr_y = np.array(y)
+
+    positive_count = np.where(1, arr_y).shape[0]
+    negative_count = np.where(0, arr_y).shape[0]
+
+    positive_weight = 1
+    res: List[float] = []
+
+    pass
 
 
 def main():
@@ -36,6 +60,7 @@ def main():
     start = time.time()
     for i, image_name in enumerate(image_names):
         img = cv2.imread(os.path.join(path_to_images_dir, image_name))
+
         old_heigh = img.shape[0]
         img = img[int(img.shape[0] / 5): img.shape[0], 0: img.shape[1]]
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -54,33 +79,31 @@ def main():
                     if y < 0:
                         continue
 
-                    if y > small_threshhold * img.shape[1]:
+                    if y > small_heigh_part * img.shape[0]:
                         is_small_size = False
                     else:
                         is_small_size = True
 
-                    if is_small_size:
-                        half_width = int(small_w / 2)
-                        half_heigh = int(small_h / 2)
-                        pix_per_cell = pixels_per_cell_small
+                    if need_to_resize:
+                        win_h, win_w = get_size_by_y(img.shape[0], min_win_h, max_win_h, y)
                     else:
-                        half_width = int(big_w / 2)
-                        half_heigh = int(big_h / 2)
-                        pix_per_cell = pixels_per_cell_big
+                        win_h, win_w = (small_h, small_w) if is_small_size else (big_h, big_w)
 
-                    if y + half_heigh > img.shape[0] or x + half_width > img.shape[1]:
+                    half_width = int(win_w / 2)
+                    half_heigh = int(win_h / 2)
+                    if y + half_heigh > img.shape[0] or x + half_width > img.shape[1] \
+                            or y - half_heigh < 0 or x - half_width < 0:
                         continue
 
                     crop_img = img[y - half_heigh: y + half_heigh, x - half_width: x + half_width]
-                    res = hog(crop_img, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)
-
-                    if is_positive_point:
-                        res_as_str = '+1 '
+                    if not is_small_size:
+                        crop_img = cv2.resize(crop_img, (big_w, big_h)) if need_to_resize else crop_img
+                        pix_per_cell = pixels_per_cell_big
                     else:
-                        res_as_str = '-1 '
+                        crop_img = cv2.resize(crop_img, (small_w, small_h)) if need_to_resize else crop_img
+                        pix_per_cell = pixels_per_cell_small
 
-                    for feature_idx, feature_val in enumerate(res):
-                        res_as_str += f'{feature_idx + 1}:{"%.3f" % feature_val} '
+                    res = hog(crop_img, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)
 
                     has_tag = False
                     if 'tags' in obj and len(obj['tags']) > 0 and obj['tags'][0]['name'] == 'cross_type':
@@ -90,63 +113,62 @@ def main():
                             cross_type = '1_2_small'
                         elif cross_type == '2_1_big':
                             cross_type = '1_2_big'
-                        ds_count[cross_type] += 1
 
                     if is_positive_point and has_tag:
-                        class_num = 1
+                        # img_flip_lr = cv2.flip(crop_img, 1)
+                        # res_flip = hog(img_flip_lr, pixels_per_cell=pix_per_cell, cells_per_block=cells_per_bloch)
+
                         prefix = '2_2_'
                         if '1_2_' in cross_type:
                             prefix = '1_2_'
-                            class_num = 2
 
                         if is_small_size:
                             postfix = 'small'
-                            ds_count['small'] += 1
                         else:
                             postfix = 'big'
-                            ds_count['big'] += 1
 
                         cross_type = prefix + postfix
 
                         # add to full cross_type data
-                        result_array_x[cross_type].append(res)
-                        result_array_y[cross_type].append(1)
-
-                        # add to small/big cross_type data
-                        result_array_x[postfix].append(res)
-                        result_array_y[postfix].append(1)
+                        cross_types = [cross_type, postfix]
+                        for cr_type in cross_types:
+                            ds_count[cr_type] += 1
+                            result_array_x[cr_type].append(res)
+                            result_array_y[cr_type].append(1)
                     elif is_negative_point:
                         if is_small_size:
-                            size = 'small'
                             ds_count_neg['small'] += 1
-                            cur_cross_types = ['1_2_small', '2_2_small']
+                            cur_cross_types = ['1_2_small', '2_2_small', 'small']
                         else:
-                            size = 'big'
                             ds_count_neg['big'] += 1
-                            cur_cross_types = ['1_2_big', '2_2_big']
+                            cur_cross_types = ['1_2_big', '2_2_big', 'big']
 
                         for cross_type in cur_cross_types:
                             result_array_x[cross_type].append(res)
                             result_array_y[cross_type].append(0)
 
-                            result_array_x[size].append(res)
-                            result_array_y[size].append(0)
-
     print(f"time: {time.time() - start}")
+
     sum = 0
     for key, val in ds_count.items():
         sum += val
-        print(f'{key}: {val}')
-    print('positive sum: ' + str(sum))
+        print(f'|{key}|{val}|')
 
     sum = 0
     for key, val in ds_count_neg.items():
         sum += val
-        print(f'negative_{key}: {val}')
-    print('nagative sum: ' + str(sum))
+        print(f'|negative_{key}|{val}|')
+
+    model_name = 'svm'
+    if os.path.isdir(model_name):
+        shutil.rmtree(model_name)
+    os.mkdir(model_name)
 
     for key, clf in result_array_x.items():
-        train_and_test(result_array_x[key], result_array_y[key], key, False)
+        # if key == 'big' or key == 'small':
+        #     continue
+
+        svm_grid(result_array_x[key], result_array_y[key], key)
 
 
 if __name__ == '__main__':
