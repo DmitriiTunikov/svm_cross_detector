@@ -1,3 +1,4 @@
+import logging
 import os
 import pickle
 import shutil
@@ -91,8 +92,11 @@ def save_results(model_name, clf, scaler=None, pca=None, model_dir='', score='',
 
 
 def find_best_params(X_train, y_train):
-    C = [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
-    class_weight = [{1: 0.5, 0: 0.5}, {1: 0.4, 0: 0.6}, {1: 0.6, 0: 0.4}, {1: 0.7, 0: 0.3}, {1: 0.3, 0: 0.7}]
+    C = [1]
+    class_weight = [{1: 0.9, 0: 0.1}]
+
+    # C = [1, 10]
+    # class_weight = [{1: 0.7, 0: 0.3}]
 
     param_grid = dict(C=C,
                       class_weight=class_weight)
@@ -100,14 +104,15 @@ def find_best_params(X_train, y_train):
     grid = GridSearchCV(estimator=SVC(random_state=0),
                         param_grid=param_grid,
                         scoring='roc_auc',
-                        # verbose=1,
-                        n_jobs=-1)
+                        verbose=1,
+                        n_jobs=-1,
+                        cv=3)
 
     grid_result = grid.fit(X_train, y_train)
     return grid, grid_result
 
 
-def svm_grid(X, Y, svm_name):
+def svm_grid(X, Y, svm_name, res_dir):
     # scale data
     scaler = StandardScaler()
     scaler.fit(X)
@@ -119,14 +124,14 @@ def svm_grid(X, Y, svm_name):
     clf, result = find_best_params(X, Y)
     # clf = cross_valid(X, Y)
 
-    print(f'|{svm_name}|{str(result.best_score_)}|{result.best_params_}|')
+    logging.info(f'|{svm_name}|{str(result.best_score_)}|{result.best_params_}|')
 
-    save_results(svm_name, clf, scaler, model_dir='svm', score=result.best_score_, params=result.best_params_)
+    save_results(svm_name, clf, scaler, model_dir=res_dir, score=result.best_score_, params=result.best_params_)
     return
 
     is_pca = True
 
-    # train svm
+    # train svm_not_resize
     classify, pca = train_svm(X_train, Y_train, svm_name, is_pca)
 
     # prepare test data
